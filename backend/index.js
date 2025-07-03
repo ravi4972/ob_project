@@ -59,7 +59,7 @@ app.post('/users', async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await pool.query(
+    await db.query(
       `INSERT INTO ob_project.users (name, email_id, contact, password) VALUES ($1, $2, $3, $4)`,
       [name, email_id, contact, hashedPassword]
     );
