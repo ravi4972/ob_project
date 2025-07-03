@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('./db');
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(cors());
@@ -49,12 +50,25 @@ app.get('/users', async (req, res) => {
 });
 
 app.post('/users', async (req, res) => {
-  const { name, age } = req.body;
-  const result = await db.query(
-    'INSERT INTO ob_project.users (name, age) VALUES ($1, $2) RETURNING *',
-    [name, age]
-  );
-  res.json(result.rows[0]);
+  try {
+    const { name, email_id, contact, password } = req.body;
+
+    if (!name || !email_id || !contact || !password) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await pool.query(
+      `INSERT INTO ob_project.users (name, email_id, contact, password) VALUES ($1, $2, $3, $4)`,
+      [name, email_id, contact, hashedPassword]
+    );
+
+    res.json({ message: 'User created successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
 app.put('/users/:id', async (req, res) => {
