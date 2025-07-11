@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 // ===========================
 
 app.get('/books', async (req, res) => {
-  const result = await db.query('SELECT * FROM ob_project.books');
+  const result = await db.query('SELECT * FROM ob_project.books order by id');
   res.json(result.rows);
 });
 
