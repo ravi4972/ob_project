@@ -50,7 +50,7 @@ app.get('/users', async (req, res) => {
 });
 
 app.get('/user/:id', async (req,res)=>{
-  const result = await db.query('Select * from ob_project.users where id=$1',[req.param.id])
+  const result = await db.query('Select * from ob_project.users where id=$1',[req.params.id])
   res.json(result.rows[0])
 })
 
@@ -80,7 +80,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.post('/users', async (req, res) => {
+app.post('/user', async (req, res) => {
   try {
     const { name, email_id, contact, password } = req.body;
 
@@ -102,7 +102,7 @@ app.post('/users', async (req, res) => {
   }
 });
 
-app.put('/users/:id', async (req, res) => {
+app.put('/user/:id', async (req, res) => {
   const { name, age } = req.body;
   const result = await db.query(
     'UPDATE ob_project.users SET name=$1, age=$2 WHERE id=$3 RETURNING *',
