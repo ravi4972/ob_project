@@ -49,6 +49,11 @@ app.get('/users', async (req, res) => {
   res.json(result.rows);
 });
 
+app.get('/user/:id', async (req,res)=>{
+  const result = await db.query('Select * from ob_project.users where id=$1',[req.param.id])
+  res.json(result.rows[0])
+})
+
 app.post('/login', async (req, res) => {
   const { email_id, password } = req.body;
   try {
@@ -74,7 +79,6 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
 
 app.post('/users', async (req, res) => {
   try {
