@@ -2,18 +2,24 @@
   "name": "frontend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx parcel index.html",
-    "build": "npx parcel-build index.html"
+    "start": "parcel public/index.html",
+    "build": "parcel build public/index.html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.10.0",
     "parcel": "^2.15.4",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.3"
+  },
+  "devDependencies": {
+    "buffer": "^6.0.3",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17"
   }
 }
