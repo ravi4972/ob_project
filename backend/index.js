@@ -49,6 +49,33 @@ app.get('/users', async (req, res) => {
   res.json(result.rows);
 });
 
+app.post('/login', async (req, res) => {
+  const { email_id, password } = req.body;
+  try {
+    const result = await db.query(
+      'SELECT * FROM ob_project.users WHERE lower(email_id) = $1',
+      [email_id.toLowerCase()]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const user = result.rows[0];
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.status(401).json({ error: 'Invalid password' });
+    }
+    const { password: _, ...userWithoutPassword } = user;
+    res.json({
+      message: 'Login successful',
+      user: userWithoutPassword
+    });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 app.post('/users', async (req, res) => {
   try {
     const { name, email_id, contact, password } = req.body;
@@ -61,7 +88,7 @@ app.post('/users', async (req, res) => {
 
     await db.query(
       `INSERT INTO ob_project.users (name, email_id, contact, password) VALUES ($1, $2, $3, $4)`,
-      [name, email_id, contact, hashedPassword]
+      [name, email_id.toLowerCase(), contact, hashedPassword]
     );
 
     res.json({ message: 'User created successfully' });
