@@ -5,6 +5,7 @@ import Headers from './components/Header'
 import SignUp from './components/Singup'
 import Login from './components/Login'
 import Body from './components/Body'
+import UserProfile from './components/UserProfile'
 import PageNotFound from './components/PageNotFound'
 
 function Layout({isLogin, userDetails}){
@@ -18,7 +19,7 @@ function Layout({isLogin, userDetails}){
 
 function App(){
     const [isLogin, setIsLogin] = useState(false)
-    const [userDetails, setUserDetails] = useState({})
+    const [userDetails, setUserDetails] = useState(null)
     return(
         <BrowserRouter>
             <Routes>
@@ -26,6 +27,7 @@ function App(){
                     <Route index element={<Body/>}/>
                     <Route path="login" element={<Login setIsLogin={setIsLogin} setUserDetails={setUserDetails}/>}/>
                     <Route path="signup" element={<SignUp/>}/>
+                    <Route path="user-profile" element={<UserProfile isLogin={isLogin} userId={userDetails?.user?.id} setIsLogin={setIsLogin} setUserDetails={setUserDetails}/>} />
                     <Route path="*" element={<PageNotFound/>}/>
                 </Route>
             </Routes> 
