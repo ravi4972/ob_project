@@ -79,10 +79,10 @@ const UserProfile = ({ userId, isLogin, setIsLogin, resetUserDetail }) => {
     return (
         <div className="flex flex-row justify-center items-start w-screen">
             <div className="flex flex-col justify-center items-center bg-white rounded-lg shadow-md mt-8">
-                <div className="flex justify-end w-[100%] mt-2 mr-2 mb-0">
+                <div className="flex justify-end w-[100%] mt-6 mr-11 mb-0">
                     <button type="button" onClick={handleCancelClick} >❌</button>
                 </div>
-                <div className="px-16 pt-4 pb-12">
+                <div className="px-16 pt-2 pb-12">
                     <div className="flex flex-row justify-center w-auto px-24 mb-4">
                         <h1 className="font-semibold text-blue-500">My Profile</h1>
                     </div>
