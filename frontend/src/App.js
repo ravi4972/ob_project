@@ -34,8 +34,7 @@ function App(){
                     <Route path="user-profile" element={<UserProfile isLogin={isLogin} userId={userDetails?.user?.id} setIsLogin={setIsLogin} setUserDetails={setUserDetails}/>} />
                     <Route path="*" element={<PageNotFound/>}/>
                 </Route>
-                <Route path="/usp" element={<UserProfile isLogin={true} userId={11} setIsLogin={setIsLogin} setUserDetails={setUserDetails}/>}/>
-            </Routes> 
+            </Routes>
         </BrowserRouter>
     )
 }
