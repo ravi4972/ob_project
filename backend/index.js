@@ -103,10 +103,10 @@ app.post('/user', async (req, res) => {
 });
 
 app.put('/user/:id', async (req, res) => {
-  const { name, age } = req.body;
+  const { name, age, contact } = req.body;
   const result = await db.query(
-    'UPDATE ob_project.users SET name=$1, age=$2 WHERE id=$3 RETURNING *',
-    [name, age, req.params.id]
+    'UPDATE ob_project.users SET name=$1, age=$2, contact=$3 WHERE id=$4 RETURNING *',
+    [name, age, contact, req.params.id]
   );
   res.json(result.rows[0]);
 });
