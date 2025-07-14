@@ -4,7 +4,6 @@ import { buttonStyle } from "../css"
 function Headers(props) {
     const navigate = useNavigate()
     const { isLogin, userDetails } = props
-    console.log('userDetails',userDetails)
     const headerButtons = isLogin ? ["Home", "Cart", "Contact Us", "My Profile"] : ["Home", "Contact Us", "Login"]
 
     function handleOnClick(e) {

@@ -20,3 +20,8 @@ export const fetchUserDetailsUsingId = async (id)=>{
     const response = await axios.get(`${baseUrl}/user/${id}`)
     return response
 }
+
+export const updateUserProfile = async (id, userProfile)=>{
+    const response = await axios.put(`${baseUrl}/user/${id}`,userProfile)
+    return response
+}

@@ -1,88 +1,108 @@
 import { useEffect, useState } from "react"
 import useForm from "../utility/useForm"
-import {fetchUserDetailsUsingId} from '../api'
-import {bodyBackGround, inputStyle, labelStyle, buttonStyle} from '../css'
-import useForm from "../utility/useForm"
-import {useNavigate} from 'react-router'
+import { fetchUserDetailsUsingId, updateUserProfile } from '../api'
+import { inputStyle, labelStyle, buttonStyle } from '../css'
+import { useNavigate } from 'react-router'
 
-const UserProfile =({userId, isLogin, setIsLogin, resetUserDetail})=>{
+const UserProfile = ({ userId, isLogin, setIsLogin, resetUserDetail }) => {
     const [userDetails, setUserDetails] = useState(null)
     const navigate = useNavigate()
 
-    const {formValue,handleOnChange,setFormValue} = useForm({
+    const { formValue, handleOnChange, setFormValue } = useForm({
         name: { description: 'Name', value: userDetails?.name || '' },
-        age: { description: 'Age', value: userDetails?.age || ''},
+        age: { description: 'Age', value: userDetails?.age || '' },
         emailId: { description: 'Email Id', value: userDetails?.email_id || '' },
         contact: { description: 'Contact', value: userDetails?.contact || '' },
     })
 
-    useEffect(()=>{
-        try{
-            async function fetchUserDetails(){
-                setTimeout(async()=>{
-                    const {data} = await fetchUserDetailsUsingId(userId)
-                    const {password:_, ...userDetails} =data
+    useEffect(() => {
+        try {
+            async function fetchUserDetails() {
+                setTimeout(async () => {
+                    const { data } = await fetchUserDetailsUsingId(userId)
+                    const { password: _, ...userDetails } = data
                     setUserDetails(userDetails)
-                },5000)
+                }, 100)
             }
-            if(isLogin){
+            if (isLogin) {
                 fetchUserDetails()
-            }else{
+            } else {
                 navigate('/')
             }
-        }catch(err){
+        } catch (err) {
             navigate('/')
         }
-    },[])  
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         setFormValue({
-        name: { description: 'Name', value: userDetails?.name || '' },
-        age: { description: 'Age', value: userDetails?.age || ''},
-        emailId: { description: 'Email Id', value: userDetails?.email_id || '' },
-        contact: { description: 'Contact', value: userDetails?.contact || '' },
-    })
-    },[userDetails])
-    
-    if(!userDetails){
-        return <div className={`w-auto min-h-screen overflow-hidden bg-blue-50 flex flex-row justify-center p-14 ${bodyBackGround}`}>
+            name: { description: 'Name', value: userDetails?.name || '' },
+            age: { description: 'Age', value: userDetails?.age || '' },
+            emailId: { description: 'Email Id', value: userDetails?.email_id || '' },
+            contact: { description: 'Contact', value: userDetails?.contact || '' },
+        })
+    }, [userDetails])
+
+    if (!userDetails) {
+        return <div className={`w-auto min-h-screen overflow-hidden bg-blue-50 flex flex-row justify-center p-14`}>
             <h1>Loading details...</h1>
         </div>
     }
 
-    function handleSubmit(){
-        console.log('Send edited')
+    async function handleSubmit(e) {
+        e.preventDefault()
+        try {
+            const name = formValue.name.value
+            const age = formValue.age.value
+            const contact = formValue.contact.value
+            const response = await updateUserProfile(userId, { name, age, contact })
+            if (response.status === 200) {
+                alert('Profile got updated')
+                navigate('/')
+            } else {
+                alert('Something failed while updating your profile')
+            }
+        } catch (err) {
+            alert('Something failed while updating your profile')
+        }
     }
 
-    function handleCancelClick(){
+    function handleCancelClick() {
         navigate('/')
     }
 
-    function handleLogOutClick(){
+    function handleLogOutClick() {
         setIsLogin(false)
-        // resetUserDetail(null)
         navigate('/')
     }
 
-    return(
-        <div className={`w-auto min-h-screen overflow-hidden bg-blue-50 flex flex-row justify-center p-14 ${bodyBackGround}`}>
-            <form className="flex flex-col justify-center items-center w-fit h-fit px-16 py-7 bg-white rounded-lg shadow-md gap-4">
-                <h1 className="font-semibold text-blue-500 ">My Profile</h1>
-                {Object.keys(formValue)?.map((i) => {
-                    return (
-                        <div key={formValue[i].description} className="flex flex-row gap-2">
-                            <label className={`${labelStyle} text-center`}>{formValue[i].description}</label>
-                            <input name={i} type={i === "password" ? "password" : "text"} value={formValue[i].value} onChange={handleOnChange} className={inputStyle} required />
-                        </div>
-                    )
-                })}
-                <p>*All Fields are required</p>
-                <div className="flex flex-row gap-4">
-                    <button type="button" className={`${buttonStyle} border-red-700 hover:bg-red-100 text-red-700`} onClick={handleCancelClick}>Cancel</button>
-                    <button type="button" className={buttonStyle}>Edit</button>
-                    <button type="button" className={buttonStyle} onClick={handleLogOutClick}>Log Out</button>
+    return (
+        <div className="flex flex-row justify-center items-start w-screen">
+            <div className="flex flex-col justify-center items-center bg-white rounded-lg shadow-md mt-8">
+                <div className="flex justify-end w-[100%] mt-2 mr-2 mb-0">
+                    <button type="button" onClick={handleCancelClick} >❌</button>
                 </div>
-            </form>
+                <div className="px-16 pt-4 pb-12">
+                    <div className="flex flex-row justify-center w-auto px-24 mb-4">
+                        <h1 className="font-semibold text-blue-500">My Profile</h1>
+                    </div>
+                    <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-fit h-fit gap-4">
+                        {Object.keys(formValue)?.map((i) => {
+                            return (
+                                <div key={formValue[i].description} className="flex flex-row gap-2">
+                                    <label className={`${labelStyle} text-center`}>{formValue[i].description}</label>
+                                    <input name={i} type={i === "password" ? "password" : "text"} value={formValue[i].value} onChange={handleOnChange} className={`${inputStyle} ${i === 'emailId' ? 'bg-gray-200' : ''} `} required disabled={i === 'emailId'} />
+                                </div>
+                            )
+                        })}
+                        <p>*All Fields are required</p>
+                        <div className="flex flex-row gap-4">
+                            <button type="submit" className={buttonStyle} >Save</button>
+                            <button type="button" className={buttonStyle} onClick={handleLogOutClick}>Log Out</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     )
 }

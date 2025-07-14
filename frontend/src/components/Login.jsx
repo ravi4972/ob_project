@@ -2,7 +2,6 @@ import {Link, useNavigate} from 'react-router'
 import useForm from "../utility/useForm"
 import { labelStyle, inputStyle, buttonStyle } from "../css"
 import {loginUser} from '../api/index'
-import {bodyBackGround} from '../css'
 
 
 const initialformValue = {
@@ -41,7 +40,7 @@ const Login = (props) => {
     }
     
     return (
-        <div className={`w-auto min-h-screen overflow-hidden bg-blue-50 flex flex-row justify-center p-14 ${bodyBackGround}`}>
+        <div className={`flex flex-row justify-center p-14`}>
             <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-fit h-fit px-16 py-7 bg-white rounded-lg shadow-md gap-4">
                 <h1 className="font-semibold text-blue-500 ">Login</h1>
                 {Object.keys(formValue)?.map((i) => {

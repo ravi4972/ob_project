@@ -7,12 +7,16 @@ import Login from './components/Login'
 import Body from './components/Body'
 import UserProfile from './components/UserProfile'
 import PageNotFound from './components/PageNotFound'
+import OfflineBanner from './components/OfflineBanner'
+import useOfflineStatus from './utility/useOfflineStatus'
+import { bodyBackGround } from './css'
 
 function Layout({isLogin, userDetails}){
+    const isOffline = useOfflineStatus()
     return(
-        <div>
+        <div className={`flex flex-col h-screen ${bodyBackGround}`}>
             <Headers isLogin={isLogin} userDetails={userDetails}/>
-            <Outlet/>
+            {isOffline?<OfflineBanner/>:<Outlet/>}
         </div>
     )
 }
@@ -30,6 +34,7 @@ function App(){
                     <Route path="user-profile" element={<UserProfile isLogin={isLogin} userId={userDetails?.user?.id} setIsLogin={setIsLogin} setUserDetails={setUserDetails}/>} />
                     <Route path="*" element={<PageNotFound/>}/>
                 </Route>
+                <Route path="/usp" element={<UserProfile isLogin={true} userId={11} setIsLogin={setIsLogin} setUserDetails={setUserDetails}/>}/>
             </Routes> 
         </BrowserRouter>
     )
