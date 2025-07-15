@@ -25,3 +25,10 @@ export const updateUserProfile = async (id, userProfile)=>{
     const response = await axios.put(`${baseUrl}/user/${id}`,userProfile)
     return response
 }
+
+export const getAuthorsList = async ()=>{
+    const response = await axios.get(`${baseUrl}/books/authors`)
+    return response
+}
+
+

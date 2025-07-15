@@ -6,7 +6,7 @@ const BookList =(props)=>{
     const {list, isBookListApiLoad} = props
     const PromotedBookCard = withPromotedLabel("Promoted")(BookCard)
     return (
-        <div className={`flex flex-row justify-start items-start gap-8 flex-wrap p-8 pt-12 pl-12`}>
+        <div className={`flex flex-row justify-start items-start gap-8 flex-wrap p-8 pl-12`}>
             {
                 !isBookListApiLoad?<BookListShimmer/>:
                 !list.length? <NoBookAvailable/>:

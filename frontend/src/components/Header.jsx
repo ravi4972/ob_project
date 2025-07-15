@@ -26,7 +26,7 @@ function Headers(props) {
         }
     }
     return (
-        <div className="flex flex-row justify-end bg-blue-200 bg-[url('https://www.transparenttextures.com/patterns/checkered-pattern.png')] py-10 px-4 sticky top-0 shadow-lg shadow-blue-300 z-50">
+        <div className="flex flex-row justify-end bg-blue-200 bg-[url('https://www.transparenttextures.com/patterns/checkered-pattern.png')] pt-6 pb-4 px-4 sticky top-0 shadow-lg shadow-blue-300 z-50">
             {isLogin ? <h1 className="text-blue-700 text-md font-bold p-2 mr-4">{`Welcome ${userDetails?.user?.name}`}</h1> : ''}
             <ul className="flex flex-row gap-4">
                 {headerButtons.map((i) => {

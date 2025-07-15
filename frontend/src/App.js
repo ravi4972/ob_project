@@ -14,7 +14,7 @@ import { bodyBackGround } from './css'
 function Layout({isLogin, userDetails}){
     const isOffline = useOfflineStatus()
     return(
-        <div className={`flex flex-col h-screen ${bodyBackGround}`}>
+        <div className={`flex flex-col h-screen ${bodyBackGround} overflow-auto`}>
             <Headers isLogin={isLogin} userDetails={userDetails}/>
             {isOffline?<OfflineBanner/>:<Outlet/>}
         </div>
