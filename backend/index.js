@@ -40,6 +40,11 @@ app.delete('/books/:id', async (req, res) => {
   res.json({ message: 'Book deleted' });
 });
 
+app.get('/books/authors',async(req,res)=>{
+  await db.query('SELECT distinct author from ob_project.books')
+  res.json(result.rows)
+})
+
 // ===========================
 //        USER ROUTES
 // ===========================
