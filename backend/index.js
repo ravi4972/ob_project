@@ -41,7 +41,7 @@ app.delete('/books/:id', async (req, res) => {
 });
 
 app.get('/books/authors',async(req,res)=>{
-  await db.query('SELECT distinct author from ob_project.books')
+  const result = await db.query('SELECT distinct author from ob_project.books')
   res.json(result.rows)
 })
 
