@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { buttonStyle, inputStyle } from '../css'
 import { getAuthorsList } from '../api'
+import AuthorShimmer from '../shimmerComponents/AuthorShimmer'
 
 export default function SearchAndFilter({ setList, originalBookList }) {
     const [searchText, setSearchText] = useState('')
@@ -78,7 +79,7 @@ export default function SearchAndFilter({ setList, originalBookList }) {
                             <div key={i} className='text-white hover:bg-blue-500 pl-4 p-2 cursor-pointer rounded-lg w-auto' onClick={() => handleAuthorSelection(i)}>{i}</div>
                         )
                     })
-                        : <div className='text-white hover:bg-blue-500 pl-4 p-2 cursor-pointer rounded-lg min-w-24 w-auto'>No Value</div>
+                        : <AuthorShimmer/>
                     }
                 </div>
                 }
