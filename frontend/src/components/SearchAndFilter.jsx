@@ -58,9 +58,17 @@ export default function SearchAndFilter({ setList, originalBookList }) {
         setSelectedAuthor('')
     }
 
+    function handleClearSearchClick(){
+        setSearchText('')
+        setList(originalBookList)
+    }
+
+    const showSearchClear = searchText && !selectedAuthor
+
     return (
         <div className="flex justify-start items-center w-full h-auto p-2 mt-2 bg-blue-700">
             <input type="text" name="search" value={searchText} placeholder="Search using book name" className={`${inputStyle} ml-11 min-w-96 px-4`} onChange={handleInputChange} />
+            {showSearchClear  && <button className={`${buttonStyle} mx-1 hover:bg-blue-500`} onClick={handleClearSearchClick}>❌</button>}
             <h1 className='text-white ml-10 mr-1'>Filter By:</h1>
             <div className='relative' onMouseEnter={handleOnHover} onMouseLeave={handleOnReleaseHover}>
                 <button className={`${buttonStyle} text-white hover:bg-blue-500`}>Author{selectedAuthor ? `: ${selectedAuthor}` : ''}</button>
