@@ -11,11 +11,11 @@ import OfflineBanner from './components/OfflineBanner'
 import useOfflineStatus from './utility/useOfflineStatus'
 import { bodyBackGround } from './css'
 
-function Layout({isLogin, userDetails}){
+function Layout({isLogin}){
     const isOffline = useOfflineStatus()
     return(
         <div className={`flex flex-col h-screen ${bodyBackGround} overflow-auto`}>
-            <Headers isLogin={isLogin} userDetails={userDetails}/>
+            <Headers isLogin={isLogin}/>
             {isOffline?<OfflineBanner/>:<Outlet/>}
         </div>
     )
@@ -27,7 +27,7 @@ function App(){
     return(
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout isLogin={isLogin} userDetails={userDetails}/>}>
+                <Route path="/" element={<Layout isLogin={isLogin}/>}>
                     <Route index element={<Body/>}/>
                     <Route path="login" element={<Login setIsLogin={setIsLogin} setUserDetails={setUserDetails}/>}/>
                     <Route path="signup" element={<SignUp/>}/>
