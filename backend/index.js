@@ -17,6 +17,11 @@ app.get('/books', async (req, res) => {
   res.json(result.rows);
 });
 
+app.get('/book/:id', async(req,res)=>{
+  const result = await db.query('SELECT * from ob_project.books where id=$1',[req.params.id])
+  res.json(result.rows[0])
+})
+
 app.post('/books', async (req, res) => {
   const { name, author, language, quantity } = req.body;
   const result = await db.query(
