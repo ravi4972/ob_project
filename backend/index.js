@@ -50,6 +50,13 @@ app.get('/books/authors',async(req,res)=>{
   res.json(result.rows)
 })
 
+app.get('/book/:id/comments',async(req,res)=>{
+  const result = await db.query('SELECT br.*, u.name from ob_project.book_reviews br join ob_project.users u on u.id=br.user_id where br.book_id=$1;',
+    [req.params.id]
+  )
+  res.json(result.rows)
+})
+
 // ===========================
 //        USER ROUTES
 // ===========================
