@@ -9,6 +9,7 @@ import UserProfile from './components/UserProfile'
 import PageNotFound from './components/PageNotFound'
 import OfflineBanner from './components/OfflineBanner'
 import useOfflineStatus from './utility/useOfflineStatus'
+import Book from './components/Book'
 import { bodyBackGround } from './css'
 
 function Layout({isLogin}){
@@ -32,6 +33,7 @@ function App(){
                     <Route path="login" element={<Login setIsLogin={setIsLogin} setUserDetails={setUserDetails}/>}/>
                     <Route path="signup" element={<SignUp/>}/>
                     <Route path="user-profile" element={<UserProfile isLogin={isLogin} userId={userDetails?.user?.id} setIsLogin={setIsLogin} setUserDetails={setUserDetails}/>} />
+                    <Route path="book/:id" element={<Book/>}/>
                     <Route path="*" element={<PageNotFound/>}/>
                 </Route>
             </Routes>

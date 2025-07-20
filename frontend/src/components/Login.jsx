@@ -1,7 +1,7 @@
-import {Link, useNavigate} from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import useForm from "../utility/useForm"
 import { labelStyle, inputStyle, buttonStyle } from "../css"
-import {loginUser} from '../api/index'
+import { loginUser } from '../api/index'
 
 
 const initialformValue = {
@@ -10,51 +10,67 @@ const initialformValue = {
 }
 
 const Login = (props) => {
-    const {formValue,handleOnChange,handleOnReset} = useForm(initialformValue)
-    const {setIsLogin, setUserDetails} = props
+    const { formValue, handleOnChange, handleOnReset } = useForm(initialformValue)
+    const { setIsLogin, setUserDetails } = props
     const navigate = useNavigate()
 
-    async function handleSubmit(e){
+    function handleCancelClick(e) {
+        navigate('/')
+    }
+
+    async function handleSubmit(e) {
         e.preventDefault()
-        try{
+        try {
             const payload = {
                 email_id: formValue.emailId.value,
                 password: formValue.password.value
             }
             const response = await loginUser(payload)
-            if(response.status===200){
+            if (response.status === 200) {
                 alert('Logged in successfull');
                 setIsLogin(true)
                 setUserDetails(response.data)
                 navigate('/')
-            } else if(response.status===404){
+            } else if (response.status === 404) {
                 alert("Email Id not found")
-            } else if(response.code===401){
+            } else if (response.code === 401) {
                 alert("Incorrect emailId or password")
             }
-        } catch(err){
+        } catch (err) {
             alert("Something failed while validation")
-        }finally{
+        } finally {
             handleOnReset()
         }
     }
-    
+
     return (
-        <div className={`flex flex-row justify-center p-14`}>
-            <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-fit h-fit px-16 py-7 bg-white rounded-lg shadow-md gap-4">
-                <h1 className="font-semibold text-blue-500 ">Login</h1>
-                {Object.keys(formValue)?.map((i) => {
-                    return (
-                        <div key={formValue[i].description} className="flex flex-col gap-2">
-                            <label className={`${labelStyle} text-center`}>{formValue[i].description}</label>
-                            <input name={i} type={i === "password" ? "password" : "text"} value={formValue[i].value} onChange={handleOnChange} className={inputStyle} required />
+        <div className="flex flex-row justify-center items-start w-screen">
+            <div className="flex flex-col justify-center items-center bg-white rounded-lg shadow-md mt-8">
+                <div className="flex justify-end w-[100%] mt-6 mr-11 mb-0">
+                    <button type="button" onClick={handleCancelClick} >❌</button>
+                </div>
+                <div className="px-16 pt-2 pb-12">
+                    <div className="flex flex-row justify-center w-auto px-24 mb-4">
+                        <h1 className="font-semibold text-blue-500 ">Login</h1>
+                    </div>
+                    <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-fit h-fit gap-4">
+                        {Object.keys(formValue)?.map((i) => {
+                            return (
+                                <div key={formValue[i].description} className="flex flex-col gap-2">
+                                    <label className={`${labelStyle} text-center`}>{formValue[i].description}</label>
+                                    <input name={i} type={i === "password" ? "password" : "text"} value={formValue[i].value} onChange={handleOnChange} className={inputStyle} required />
+                                </div>
+                            )
+                        })}
+                        <p>*All Fields are required</p>
+                        <div className="flex gap-4">
+                           <button type="button" className={buttonStyle} onClick={handleOnReset}>Clear</button>
+                            <button type="submit" className={buttonStyle}>Submit</button> 
                         </div>
-                    )
-                })}
-                <p>*All Fields are required</p>
-                <button type="submit" className={buttonStyle}>Submit</button>
-                <h2 className="font-semibold text-blue-500 ">For new user, create new profile <Link to="/signup" className="text-red-500">here</Link></h2>
-            </form>
+                        <h2 className="font-semibold text-blue-500 ">For new user, create new profile <Link to="/signup" className="text-red-500">here</Link></h2>
+                    </form>
+                </div>
+            </div>
         </div>
     )
 }

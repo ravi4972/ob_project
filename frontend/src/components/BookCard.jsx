@@ -1,7 +1,16 @@
+import {useNavigate} from 'react-router'
+
 const BookCard=(props)=>{
     const {book, label} = props
+
+    const navigate = useNavigate()
+
+    function handleBookClick(){
+        navigate(`/book/${book.id}`)
+    }
+    
     return(
-        <div className=" relative border rounded-lg p-4 shadow-sm bg-white flex flex-col items-center cursor-pointer w-[23%] min-w-[290px] h-80">
+        <div className=" relative border rounded-lg p-4 shadow-sm bg-white flex flex-col items-center cursor-pointer w-[23%] min-w-[290px] h-80" onClick={handleBookClick}>
             {label}
             <img src={book.image_link} className='w-fit'/>
             <p className="text-lg font-semibold text-gray-800">
