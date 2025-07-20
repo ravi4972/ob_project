@@ -32,8 +32,12 @@ export const getAuthorsList = async ()=>{
 }
 
 export const getBookUsingID = async (id)=>{
-    console.log(`${baseUrl}/book/${id}`)
     const response = await axios.get(`${baseUrl}/book/${id}`)
+    return response
+}
+
+export const getBookReview = async (id)=>{
+    const response = await axios.get(`${baseUrl}/book/${id}/comments`)
     return response
 }
 
