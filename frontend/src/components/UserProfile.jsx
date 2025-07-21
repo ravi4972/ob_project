@@ -4,8 +4,9 @@ import { fetchUserDetailsUsingId, updateUserProfile } from '../api'
 import { inputStyle, labelStyle, buttonStyle } from '../css'
 import { useNavigate } from 'react-router'
 
-const UserProfile = ({ userId, isLogin, setIsLogin, resetUserDetail }) => {
+const UserProfile = ({ userId, isLogin, setIsLogin }) => {
     const [userDetails, setUserDetails] = useState(null)
+    const [disableLoginlearBtnGrp, setDisableLoginlearBtnGrp] = useState(false)
     const navigate = useNavigate()
 
     const { formValue, handleOnChange, setFormValue } = useForm({
@@ -52,6 +53,7 @@ const UserProfile = ({ userId, isLogin, setIsLogin, resetUserDetail }) => {
     async function handleSubmit(e) {
         e.preventDefault()
         try {
+            setDisableLoginlearBtnGrp(true)
             const name = formValue.name.value
             const age = formValue.age.value
             const contact = formValue.contact.value
@@ -64,14 +66,17 @@ const UserProfile = ({ userId, isLogin, setIsLogin, resetUserDetail }) => {
             }
         } catch (err) {
             alert('Something failed while updating your profile')
+            setDisableLoginlearBtnGrp(false)
         }
     }
 
     function handleCancelClick() {
+        setDisableLoginlearBtnGrp(true)
         navigate('/')
     }
 
     function handleLogOutClick() {
+        setDisableLoginlearBtnGrp(true)
         setIsLogin(false)
         navigate('/')
     }
@@ -97,8 +102,8 @@ const UserProfile = ({ userId, isLogin, setIsLogin, resetUserDetail }) => {
                         })}
                         <p>*All Fields are required</p>
                         <div className="flex flex-row gap-4">
-                            <button type="submit" className={buttonStyle} >Save</button>
-                            <button type="button" className={buttonStyle} onClick={handleLogOutClick}>Log Out</button>
+                            <button type="submit" className={`${buttonStyle} ${disableLoginlearBtnGrp ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : ''}`} disabled={disableLoginlearBtnGrp}>Save</button>
+                            <button type="button" className={`${buttonStyle} ${disableLoginlearBtnGrp ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : ''}`} onClick={handleLogOutClick} disabled={disableLoginlearBtnGrp}>Log Out</button>
                         </div>
                     </form>
                 </div>

@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router'
 import useForm from "../utility/useForm"
 import { labelStyle, inputStyle, buttonStyle } from "../css"
 import { loginUser } from '../api/index'
+import { useState } from 'react'
 
 
 const initialformValue = {
@@ -10,6 +11,8 @@ const initialformValue = {
 }
 
 const Login = (props) => {
+    const [disableLoginlearBtnGrp, setDisableLoginlearBtnGrp] = useState(false)
+
     const { formValue, handleOnChange, handleOnReset } = useForm(initialformValue)
     const { setIsLogin, setUserDetails } = props
     const navigate = useNavigate()
@@ -21,6 +24,7 @@ const Login = (props) => {
     async function handleSubmit(e) {
         e.preventDefault()
         try {
+            setDisableLoginlearBtnGrp(true)
             const payload = {
                 email_id: formValue.emailId.value,
                 password: formValue.password.value
@@ -40,6 +44,7 @@ const Login = (props) => {
             alert("Something failed while validation")
         } finally {
             handleOnReset()
+            setDisableLoginlearBtnGrp(false)
         }
     }
 
@@ -64,8 +69,8 @@ const Login = (props) => {
                         })}
                         <p>*All Fields are required</p>
                         <div className="flex gap-4">
-                           <button type="button" className={buttonStyle} onClick={handleOnReset}>Clear</button>
-                            <button type="submit" className={buttonStyle}>Submit</button> 
+                            <button type="button" className={`${buttonStyle} ${disableLoginlearBtnGrp ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : ''}`} onClick={handleOnReset} disabled={disableLoginlearBtnGrp}>Clear</button>
+                            <button type="submit" className={`${buttonStyle} ${disableLoginlearBtnGrp ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : ''}`} disabled={disableLoginlearBtnGrp}>Submit</button>
                         </div>
                         <h2 className="font-semibold text-blue-500 ">For new user, create new profile <Link to="/signup" className="text-red-500">here</Link></h2>
                     </form>

@@ -42,9 +42,9 @@ export default function Book({ label }) {
                 <div className='w-[60%] bg-blue-50 h-screen'>
                     <button className={`${smButtonStyle} m-4`} onClick={handleBackButtonClick}>Back ⬅️</button>
                     <div className='flex flex-col gap-4 justify-start items-start py-2 px-4'>
-                        <div className='flex flex-row justify-start items-start gap-4 h-80'>
-                            <img src={bookDetails.image_link} className="w-auto min-h-80" />
-                            <div className='flex flex-col justify-center items-start h-full gap-4 py-8 px-8 bg-white shadow-md rounded-md'>
+                        <div className='flex flex-row justify-start items-start gap-4 h-80 w-full'>
+                            <img src={bookDetails.image_link} className="h-80 w-[500px]" />
+                            <div className='flex-1 flex flex-col justify-center items-start h-full gap-4 py-8 px-8 bg-white shadow-md rounded-md'>
                                 <h1 className='font-bold'>{bookDetails.name}</h1>
                                 <h1>✍🏻 By: {bookDetails.author}</h1>
                                 <h1>📖 Available in: {bookDetails.language}</h1>
